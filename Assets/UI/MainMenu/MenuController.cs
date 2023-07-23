@@ -8,7 +8,7 @@ using UnityEngine.UIElements;
 
 public class MenuController : MonoBehaviour
 {
-    [SerializeField] private String nameOfNewGameScene;
+    [SerializeField] private string nameOfNewGameScene;
 
     [SerializeField] private VisualTreeAsset settingsMenuTemplate;
     [SerializeField] private VisualElement _settingsMenu;
@@ -19,7 +19,7 @@ public class MenuController : MonoBehaviour
     private VisualElement _buttonsWrapper;
     
     private UIDocument _document;
-    private Button _playButton;
+    private Button _newGameButton;
     private Button _loadButton;
     private Button _settingsButton;
     private Button _quitButton;
@@ -32,12 +32,12 @@ public class MenuController : MonoBehaviour
         
         _buttonsWrapper = _document.rootVisualElement.Q<VisualElement>("Menu");
         
-        _playButton = _document.rootVisualElement.Q<Button>("NewGameButton");
+        _newGameButton = _document.rootVisualElement.Q<Button>("NewGameButton");
         _loadButton = _document.rootVisualElement.Q<Button>("LoadGameButton"); 
         _settingsButton = _document.rootVisualElement.Q<Button>("OptionsButton"); 
         _quitButton = _document.rootVisualElement.Q<Button>("QuitButton");
 
-        _playButton.clicked += PlayButtonClicked;
+        _newGameButton.clicked += NewGameButtonClicked;
         _quitButton.clicked += ExitButtonClicked;
         _settingsButton.clicked += SettingsButtonClicked;
 
@@ -77,7 +77,7 @@ public class MenuController : MonoBehaviour
     }
     
     //Play Button
-    private void PlayButtonClicked()
+    private void NewGameButtonClicked()
     {
         SceneManager.LoadScene(nameOfNewGameScene);
     }
@@ -98,7 +98,7 @@ public class MenuController : MonoBehaviour
     private void BackButtonClicked()
     {
         _buttonsWrapper.Clear();
-        _buttonsWrapper.Add(_playButton);
+        _buttonsWrapper.Add(_newGameButton);
         _buttonsWrapper.Add(_loadButton);
         _buttonsWrapper.Add(_settingsButton);
         _buttonsWrapper.Add(_quitButton);
