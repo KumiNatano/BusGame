@@ -3,14 +3,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 using UnityEngine.UIElements;
 
 public class MenuController : MonoBehaviour
 {
     [SerializeField] private String nameOfNewGameScene;
 
-    [SerializeField] private VisualTreeAsset _settingsButtonsTemplate;
-    [SerializeField] private VisualElement _settingsButtons;
+    [SerializeField] private VisualTreeAsset settingsMenuTemplate;
+    [SerializeField] private VisualElement _settingsMenu;
+
+    [SerializeField] private AudioManager audioManager;
     
     
     private VisualElement _buttonsWrapper;
@@ -20,7 +23,9 @@ public class MenuController : MonoBehaviour
     private Button _loadButton;
     private Button _settingsButton;
     private Button _quitButton;
-    
+
+    private Slider _musicSlider;
+    private Slider _sfxSlider;
     private void Awake()
     {
         _document = GetComponent<UIDocument>();
@@ -36,26 +41,58 @@ public class MenuController : MonoBehaviour
         _quitButton.clicked += ExitButtonClicked;
         _settingsButton.clicked += SettingsButtonClicked;
 
-        _settingsButtons = _settingsButtonsTemplate.CloneTree();
+        _settingsMenu = settingsMenuTemplate.CloneTree();
 
-        var backButton = _settingsButtons.Q<Button>("BackButton");
+        var backButton = _settingsMenu.Q<Button>("BackButton");
         backButton.clicked += BackButtonClicked;
+
+        _musicSlider = _settingsMenu.Q<Slider>("MusicSlider");
+        _musicSlider.RegisterValueChangedCallback(MusicSliderChanged);
+
+        _sfxSlider = _settingsMenu.Q<Slider>("SFXSlider");
+        _sfxSlider.RegisterValueChangedCallback(SfxSliderChanged);
+
     }
 
+    //Music Slider
+    private void MusicSliderChanged(ChangeEvent<float> evt)
+    {
+        audioManager.SetMusiCVolume(_musicSlider.value);
+    }
+
+    public void SetMusicSliderValue(float value)
+    {
+        _musicSlider.value = value;
+    }
+    
+    //SFX Slider
+    private void SfxSliderChanged(ChangeEvent<float> evt)
+    {
+        audioManager.SetSfxVolume(_sfxSlider.value);
+    }
+
+    public void SetSfxSliderValue(float value)
+    {
+        _sfxSlider.value = value;
+    }
+    
+    //Play Button
     private void PlayButtonClicked()
     {
         SceneManager.LoadScene(nameOfNewGameScene);
     }
     
+    //Exit Button
     private void ExitButtonClicked()
     {
         Application.Quit();
     }
 
+    //Settings
     private void SettingsButtonClicked()
     {
         _buttonsWrapper.Clear();
-        _buttonsWrapper.Add(_settingsButtons);
+        _buttonsWrapper.Add(_settingsMenu);
     }
 
     private void BackButtonClicked()
@@ -65,6 +102,5 @@ public class MenuController : MonoBehaviour
         _buttonsWrapper.Add(_loadButton);
         _buttonsWrapper.Add(_settingsButton);
         _buttonsWrapper.Add(_quitButton);
-        
     }
 }
