@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,40 +5,48 @@ using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using UnityEngine.UIElements;
 
-public class MenuController : MonoBehaviour, IMenuController
+public class PauseMenuController : MonoBehaviour, IMenuController
 {
-    [SerializeField] private string nameOfNewGameScene;
 
     [SerializeField] private VisualTreeAsset settingsMenuTemplate;
     [SerializeField] private VisualElement _settingsMenu;
 
     [SerializeField] private AudioManager audioManager;
-    
+    [SerializeField] private PauseManager pauseManager;
+
+    [SerializeField] private string nameOfMainMenuScene;
     
     private VisualElement _buttonsWrapper;
     
     private UIDocument _document;
-    private Button _newGameButton;
-    private Button _loadButton;
+
+    public VisualElement _display;
+
+    private Button _resumeButton;
     private Button _settingsButton;
+    private Button _returnToMainMenuButton;
     private Button _quitButton;
 
     private Slider _musicSlider;
     private Slider _sfxSlider;
+    
     private void Awake()
     {
         _document = GetComponent<UIDocument>();
         
         _buttonsWrapper = _document.rootVisualElement.Q<VisualElement>("Menu");
         
-        _newGameButton = _document.rootVisualElement.Q<Button>("NewGameButton");
-        _loadButton = _document.rootVisualElement.Q<Button>("LoadGameButton"); 
+        _display = _document.rootVisualElement.Q<VisualElement>("Display");
+
+        _resumeButton = _document.rootVisualElement.Q<Button>("ResumeButton");
         _settingsButton = _document.rootVisualElement.Q<Button>("OptionsButton"); 
+        _returnToMainMenuButton = _document.rootVisualElement.Q<Button>("ReturnToMainMenuButton"); 
         _quitButton = _document.rootVisualElement.Q<Button>("QuitButton");
 
-        _newGameButton.clicked += NewGameButtonClicked;
-        _quitButton.clicked += ExitButtonClicked;
+        _resumeButton.clicked += ResumeButtonClicked;
         _settingsButton.clicked += SettingsButtonClicked;
+        _returnToMainMenuButton.clicked += ReturnToMainMenuButtonClicked;
+        _quitButton.clicked += ExitButtonClicked;
 
         _settingsMenu = settingsMenuTemplate.CloneTree();
 
@@ -54,6 +61,40 @@ public class MenuController : MonoBehaviour, IMenuController
 
     }
 
+    //Resume Button
+    private void ResumeButtonClicked()
+    {
+        pauseManager.PauseButtonPressed();
+    }
+    
+    //Return To Main Menu Button
+    private void ReturnToMainMenuButtonClicked()
+    {
+        SceneManager.LoadScene(nameOfMainMenuScene);
+    }
+
+    //Exit Button
+    public void ExitButtonClicked()
+    {
+        Application.Quit();
+    }
+
+    //Settings
+    public void SettingsButtonClicked()
+    {
+        _buttonsWrapper.Clear();
+        _buttonsWrapper.Add(_settingsMenu);
+    }
+
+    public void BackButtonClicked()
+    {
+        _buttonsWrapper.Clear();
+        _buttonsWrapper.Add(_resumeButton);
+        _buttonsWrapper.Add(_settingsButton);
+        _buttonsWrapper.Add(_returnToMainMenuButton);
+        _buttonsWrapper.Add(_quitButton);
+    }
+    
     //Music Slider
     public void MusicSliderChanged(ChangeEvent<float> evt)
     {
@@ -75,35 +116,5 @@ public class MenuController : MonoBehaviour, IMenuController
     {
         _sfxSlider.value = value;
     }
-    
-    //Play Button
-    private void NewGameButtonClicked()
-    {
-        SceneManager.LoadScene(nameOfNewGameScene);
-    }
-    
-    //Exit Button
-    public void ExitButtonClicked()
-    {
-        Application.Quit();
-    }
-
-    //Settings
-    public void SettingsButtonClicked()
-    {
-        _buttonsWrapper.Clear();
-        _buttonsWrapper.Add(_settingsMenu);
-    }
-
-    public void BackButtonClicked()
-    {
-        _buttonsWrapper.Clear();
-        _buttonsWrapper.Add(_newGameButton);
-        _buttonsWrapper.Add(_loadButton);
-        _buttonsWrapper.Add(_settingsButton);
-        _buttonsWrapper.Add(_quitButton);
-    }
-    
-    /////
     
 }

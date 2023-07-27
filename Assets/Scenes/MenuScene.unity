@@ -436,6 +436,10 @@ PrefabInstance:
       propertyPath: menuController
       value: 
       objectReference: {fileID: 1936863107}
+    - target: {fileID: 4056580235969933414, guid: c7e7497fa5ba8664fab1374678604c0a, type: 3}
+      propertyPath: mainMenuController
+      value: 
+      objectReference: {fileID: 1936863107}
     - target: {fileID: 7411393859713853467, guid: c7e7497fa5ba8664fab1374678604c0a, type: 3}
       propertyPath: m_Name
       value: AudioManager

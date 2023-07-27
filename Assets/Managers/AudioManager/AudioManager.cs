@@ -2,15 +2,30 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 
 public class AudioManager : MonoBehaviour
 {
     [SerializeField] AudioMixer masterMixer;
-    [SerializeField] private MenuController menuController;
+    [SerializeField] private string menuSceneName;
+
+    [SerializeField] private MenuController mainMenuController;
+    [SerializeField] private PauseMenuController pauseMenuController;
+
+    private IMenuController _menuController;
 
     private void Start()
     {
+        if (SceneManager.GetActiveScene().name == menuSceneName)
+        {
+            _menuController = mainMenuController;
+        }
+        else
+        {
+            _menuController = pauseMenuController;
+        }
+
         SetMusiCVolume(PlayerPrefs.GetFloat("SavedMusicVolume", 100));
         SetSfxVolume(PlayerPrefs.GetFloat("SavedSFXVolume", 100));
     }
@@ -28,7 +43,7 @@ public class AudioManager : MonoBehaviour
     
     public void RefreshMusicSlider(float value)
     {
-        menuController.SetMusicSliderValue(value);
+        _menuController.SetMusicSliderValue(value);
     }
     
     //SFX
@@ -44,6 +59,6 @@ public class AudioManager : MonoBehaviour
     
     public void RefreshSfxSlider(float value)
     {
-        menuController.SetSfxSliderValue(value);
+        _menuController.SetSfxSliderValue(value);
     }
 }
