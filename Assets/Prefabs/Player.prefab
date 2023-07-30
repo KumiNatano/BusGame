@@ -17,9 +17,9 @@ GameObject:
   - component: {fileID: 1693050942032620432}
   - component: {fileID: 356740842}
   - component: {fileID: 3990321457124276997}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: Player
-  m_TagString: player
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -131,7 +131,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: a7c57abafdbc5d8408cfdbcdd60fef54, type: 3}
+  m_Actions: {fileID: -944628639613478452, guid: 47f8bff154d10dd4a8e7344cd60d4f7e, type: 3}
   m_NotificationBehavior: 0
   m_UIInputModule: {fileID: 0}
   m_DeviceLostEvent:
