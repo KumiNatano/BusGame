@@ -7,16 +7,12 @@ public class CarController : MonoBehaviour
     public Transform CenterOfMass;
 
     [Header("Wheels")]
-    public Rigidbody WheelFL;
-    public Rigidbody WheelFR;
-    public Rigidbody WheelBL;
-    public Rigidbody WheelBR;
+    public CarWheel[] wheels;
 
     [Header("Settings")]
     public float MaxSpeed = 100;
     public float Acceleration = 1700f;
     public float BrakeForce = 1000f;
-    public float wheelFriction = 100f;
     public float TurnForce = 1500f;
     public AnimationCurve TurnForceCurve;
 
@@ -52,12 +48,12 @@ public class CarController : MonoBehaviour
         sp = TurnForceCurve.Evaluate(sp);
         BodyRigidbody.AddTorque(transform.up * input * TurnForce * sp);
     }
-
-    void WheelFriction(Rigidbody wheel)
+    void HandleWheels()
     {
-        Vector3 dir = wheel.transform.up;
-        float force = Vector3.Dot(wheel.velocity, dir) * wheelFriction;
-        wheel.AddForce(-dir * force);
+        foreach(CarWheel wheel in wheels)
+        {
+            wheel.ApplyFriction();
+        }
     }
 
     private void FixedUpdate()
@@ -71,11 +67,8 @@ public class CarController : MonoBehaviour
             Brake(1.0f);
         }
         DoTurn(Input.GetAxis("Horizontal"));
+        HandleWheels();
 
-        WheelFriction(WheelFR);
-        WheelFriction(WheelFL);
-        WheelFriction(WheelBR);
-        WheelFriction(WheelBL);
     }
 
     void Awake()
