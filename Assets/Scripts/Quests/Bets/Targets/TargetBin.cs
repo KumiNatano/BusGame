@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TargetOldLady : Target
+public class TargetBin : Target
 {
     private void OnCollisionEnter(Collision collision)
     {

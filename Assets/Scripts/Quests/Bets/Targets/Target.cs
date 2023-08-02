@@ -10,12 +10,4 @@ public abstract class Target : MonoBehaviour
     {
         IsCompleted = false;
     }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.tag == "Player")
-        {
-            IsCompleted = true;
-        }
-    }
 }
