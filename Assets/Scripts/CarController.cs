@@ -58,15 +58,6 @@ public class CarController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (Input.GetKey(KeyCode.W))
-        {
-            Accelerate(1.0f);
-        }
-        else if (Input.GetKey(KeyCode.S))
-        {
-            Brake(1.0f);
-        }
-        DoTurn(Input.GetAxis("Horizontal"));
         HandleWheels();
 
     }
