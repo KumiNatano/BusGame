@@ -61,6 +61,7 @@ public class PlayerController : PlayerModule
     //    isr &= Input.GetAxisRaw("Vertical") > float.Epsilon;
     //    isRunning = isr;
     //}
+    /*
     private IEnumerator DoDuck(float from, float to){
         bool c = isDucking;
         float t = from;
@@ -94,6 +95,7 @@ public class PlayerController : PlayerModule
         }
         parent.SetHeight(to);
     }
+    */
     private Vector3 AngleToDir(float angle){
         return Quaternion.Euler(Vector3.up * angle) * Vector3.forward;
     }
