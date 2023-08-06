@@ -17,6 +17,10 @@ public class CarController : MonoBehaviour
     public AnimationCurve TurnForceCurve;
 
 
+    public float GetForwardSpeed()
+    {
+        return Vector3.Dot(BodyRigidbody.velocity, transform.forward);
+    }
     public void Accelerate(float force = 1.0f)
     {
         float sp = Vector3.Dot(BodyRigidbody.velocity, transform.forward) * 3.6f;
@@ -42,6 +46,10 @@ public class CarController : MonoBehaviour
     {
         input = Mathf.Clamp(input, -1, 1);
         float sp = Mathf.Abs(Vector3.Dot(BodyRigidbody.velocity, transform.forward));
+        if (GetForwardSpeed() < 0)
+        {
+            input = -input;
+        }
         sp *= 3.6f;
         sp /= MaxSpeed;
         sp = Mathf.Clamp01(sp);
@@ -59,7 +67,6 @@ public class CarController : MonoBehaviour
     private void FixedUpdate()
     {
         HandleWheels();
-
     }
 
     void Awake()
