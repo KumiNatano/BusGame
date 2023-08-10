@@ -8,6 +8,10 @@ public class BusPassengers : MonoBehaviour
     
     public List<Passenger> Passengers;
 
+    public List<GameObject> DoorPositions;
+
+    public List<Vector3> SeatsPositions;
+
     public int GetActualCapacity()
     {
         return BusMaxCapacity - Passengers.Count;
