@@ -13,6 +13,7 @@ public class QuestGiver : MonoBehaviour
         if (other.gameObject.tag == "Player" & !isAccepted)
         {
             Debug.Log(description);
+            // WOLNE MIEJSCE na twoje okno dialogowe
             QuestManager.Instance.AddBet(bet);
             isAccepted = true;
         }
